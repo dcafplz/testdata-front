@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState } from "react";
 import '../App.css';
 import {
     TextField,
@@ -11,11 +11,17 @@ function Elements({ item, onRemove }){
 
     const optionList = ["Id", "Name", "Integer", "Numeric", "Gender", "Age", "BirthDate", "Date", "Custom"]
 
+    const [option, setOption] = useState('');
+
+    const handleChangeOption = (event) => {
+        setOption(event.target.value);
+      };
+
     return (
         <div>
             <TextField name="colname" label="Column Name" variant="outlined" required/>
-            <TextField select label="option" variant="outlined" size='large' value={item.value} required>
-                {optionList.map(list => <MenuItem key={list}>{list}</MenuItem>)}
+            <TextField select label="option" variant="outlined" sx={{minWidth: 120 }} value={option} onChange={handleChangeOption} required>
+                {optionList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
             </TextField>
             <Button onClick={() => onRemove(item.id)}>X</Button>
         </div>
