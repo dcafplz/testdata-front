@@ -1,11 +1,16 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom';
-import Button from '@mui/material/Button';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  return <Button variant="contained">Hello World</Button>;
-}
+import Home from "./pages/Home";
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+const App = () => {
+	return (
+		<BrowserRouter>
+				<Routes>
+					<Route exact path="/" element={<Home/>} />
+				</Routes>
+		</BrowserRouter>
+	);
+};
 
 export default App;
