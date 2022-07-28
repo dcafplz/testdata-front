@@ -1,10 +1,13 @@
 import React from "react";
-import Button from '@mui/material/Button';
+import AppLayout from "../components/common/AppLayout";
+import ParamCard from "../components/home/ParamCard";
 
 
 const Home = () => {
   return (
-    <Button variant="contained">Hello World</Button>
+    <AppLayout>
+        <ParamCard/>
+    </AppLayout>
   );
 };
 
