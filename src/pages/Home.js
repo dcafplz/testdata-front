@@ -36,15 +36,12 @@ const Home = (props) => {
   const [item, setItem] = useState([
     {
       id: 1,
-      value: "Id"
     },
     {
       id: 2,
-      value: "Name"
     },
     {
       id: 3,
-      value: "Age"
     }
   ])
 
