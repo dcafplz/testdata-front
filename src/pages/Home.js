@@ -18,6 +18,8 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ElementsBoard from "./ElementsBoard"
 
+import AppLayout from "../components/common/AppLayout";
+
 
 const Home = (props) => {
 
@@ -58,7 +60,7 @@ const Home = (props) => {
   }
 
   return (
-    <div>
+<AppLayout>
     <FormControl>
       <ElementsBoard item={item} onRemove={onRemove}/>
       <Button onClick={add}>Add Column</Button>
@@ -68,7 +70,7 @@ const Home = (props) => {
       <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required defaultValue="100" InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
       <Button type="submit" fullWidth>Generate Data</Button>
     </FormControl>
-    </div>
+  </AppLayout>
   );
 };
 
