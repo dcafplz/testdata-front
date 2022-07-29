@@ -7,7 +7,7 @@ import {
     Button,
   } from '@mui/material/';
 
-import { modalStyle } from "./ModalStyle";
+// import { modalStyle } from "./ModalStyle.js";
 
 function NumericDetailOptionModal({open, handleClose}){
 
@@ -19,8 +19,6 @@ function NumericDetailOptionModal({open, handleClose}){
         setDistribution(event.target.value);
     };
 
-    console.log(handleClose)
-
     return(
         <Modal 
             open={open}
@@ -28,7 +26,7 @@ function NumericDetailOptionModal({open, handleClose}){
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Box sx={modalStyle}>
+            <Box>
                 <h2 id="modalTitle">사용자 정의 설정</h2>
                 <p id="modalDescription">숫자 범위를 자유롭게 선택하세요</p>
                 <TextField name="min" label="Min" variant="outlined" type="number" required defaultValue="0"/>

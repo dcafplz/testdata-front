@@ -8,7 +8,7 @@ import {
   } from '@mui/material/';
 import NumericDetailOptionModal from "./NumericDetailOptionModal";
 
-function ElementsNumericOption(){
+function NumericElementsOption(){
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {setOpen(true)};
@@ -24,4 +24,4 @@ function ElementsNumericOption(){
     );
 };
 
-export default ElementsNumericOption;
+export default NumericElementsOption;

@@ -7,7 +7,6 @@ import {
     Button,
   } from '@mui/material/';
 
-import { modalStyle } from "./ModalStyle";
 
 
 function CustomDetailOptionModal({open, handleClose}){
@@ -39,7 +38,7 @@ function CustomDetailOptionModal({open, handleClose}){
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Box sx={modalStyle}>
+            <Box>
                 <h2 id="modalTitle">사용자 정의 설정</h2>
                 <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
                 {item.map((i => <div>
