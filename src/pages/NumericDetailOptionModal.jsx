@@ -12,7 +12,22 @@ import {
     DialogTitle,
   } from '@mui/material/';
 
-// import { modalStyle } from "./ModalStyle.js";
+  function randn_bm(avg, sigma) {
+    let u = 0, v = 0;
+    while(u === 0) u = Math.random() //Converting [0,1) to (0,1)
+    while(v === 0) v = Math.random()
+    let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
+    
+    num = num / 10.0 + 0.5 // Translate to 0 -> 1
+    if (num > 1 || num < 0) 
+      num = randn_bm(avg, sigma) // resample between 0 and 1 if out of range
+    
+    else{
+      num *= sigma // Stretch to fill range
+      num += avg // offset to min
+    }
+    return num
+  }
 
 function NumericDetailOptionModal({open, handleClose, option}){
 
@@ -23,6 +38,11 @@ function NumericDetailOptionModal({open, handleClose, option}){
     const handleChangeDistribution = (event) => {
         setDistribution(event.target.value);
     };
+
+    const test = () => {
+        console.log(randn_bm(30, 160));
+    };
+
 
     return(
         <Dialog 
@@ -45,7 +65,7 @@ function NumericDetailOptionModal({open, handleClose, option}){
                 <TextField name="standardDeviation" label="standard deviation" variant="outlined" type="number" required defaultValue="1"/></>}<br/>
             </DialogContent>
             <DialogActions>
-            <Button>Apply</Button> 
+            <Button onClick={()=> test()}>Apply</Button> 
             <Button onClick={() => handleClose()}>Cancle</Button>
             </DialogActions>
           </Dialog>
