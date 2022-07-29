@@ -1,11 +1,15 @@
 import React , { useState, useRef } from "react";
 import {
-    Modal,
     Box,
     TextField,
-    MenuItem,
     Button,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    DialogTitle,
   } from '@mui/material/';
+  
 
 
 
@@ -32,25 +36,23 @@ function CustomDetailOptionModal({open, handleClose}){
     };
 
     return(
-        <Modal
-            open={open}
-            onClose={() => handleClose()}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-        >
-            <Box>
-                <h2 id="modalTitle">사용자 정의 설정</h2>
+      <Dialog open={open} onClose={() => handleClose()}>            
+      <DialogTitle>사용자 정의 설정</DialogTitle>
+      <DialogContent dividers>
                 <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
                 {item.map((i => <div>
                         <TextField id={i} lable="Value" name="value"/>
                         <TextField name="probability" label="Probability " variant="outlined" type="number" required defaultValue="0"/>
                         <Button onClick={() => onRemove(i.id)}>X</Button>
                     </div>))}
-                <br/>
-                <Button onClick={add}>Add Column</Button>
-                <Button>Apply</Button> <Button onClick={() => handleClose()}>Cancle</Button>
-            </Box>
-        </Modal>
+    
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={add}>Add Column</Button>
+          <Button>Apply</Button>
+          <Button onClick={() => handleClose()}>Cancle</Button>
+          </DialogActions>
+          </Dialog>
     );
 };
 

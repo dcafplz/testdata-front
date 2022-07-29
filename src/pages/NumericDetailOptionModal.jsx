@@ -5,6 +5,11 @@ import {
     TextField,
     MenuItem,
     Button,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    DialogTitle,
   } from '@mui/material/';
 
 // import { modalStyle } from "./ModalStyle.js";
@@ -20,14 +25,13 @@ function NumericDetailOptionModal({open, handleClose, option}){
     };
 
     return(
-        <Modal 
-            open={open}
+        <Dialog 
+            open={open} 
             onClose={() => handleClose()}
-            aria-labelledby="parent-modal-title"
-            aria-describedby="parent-modal-description"
-        >
-            <Box>
-                <h2 id="modalTitle">사용자 정의 설정</h2>
+            maxWidth="lg"
+            fullWidth={true}>            
+        <DialogTitle>사용자 정의 설정</DialogTitle>            
+        <DialogContent dividers>
                 <p id="modalDescription">숫자 범위를 자유롭게 선택하세요</p>
                 <TextField name="min" label="Min" variant="outlined" type="number" required defaultValue="0"/>
                 <TextField name="max" label="Max" variant="outlined" type="number" required defaultValue="100"/>
@@ -39,9 +43,12 @@ function NumericDetailOptionModal({open, handleClose, option}){
                 {(distribution == "Nomal distribution" ? true : false) && <>
                 <TextField name="avg" label="Avg" variant="outlined" type="number" required defaultValue="0"/>
                 <TextField name="standardDeviation" label="standard deviation" variant="outlined" type="number" required defaultValue="1"/></>}<br/>
-                <Button>Apply</Button> <Button onClick={() => handleClose()}>Cancle</Button>
-            </Box>
-        </Modal>
+            </DialogContent>
+            <DialogActions>
+            <Button>Apply</Button> 
+            <Button onClick={() => handleClose()}>Cancle</Button>
+            </DialogActions>
+          </Dialog>
     );
 };
 
