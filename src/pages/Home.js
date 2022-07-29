@@ -19,13 +19,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ElementsBoard from "./ElementsBoard"
 
 import AppLayout from "../components/common/AppLayout";
+import GenerateInput from './GenerateInput';
 
 
 const Home = (props) => {
-
-
-
-  const dataTypeList = ["SQL", "JSON", "CSV", "EXCEL(.xls)"]
 
   const [dataType, setDataType] = useState('');
 
@@ -62,12 +59,16 @@ const Home = (props) => {
   return (
 <AppLayout>
     <FormControl>
-      <ElementsBoard item={item} setItem={setItem} add={add} onRemove={onRemove}/>
-      <TextField select label="Datatype" variant="outlined" value={dataType} onChange={handleChangeDataType} required>
-                {dataTypeList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
-      </TextField>
-      <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required defaultValue="100" InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
-      <Button type="submit" fullWidth>Generate Data</Button>
+      <ElementsBoard 
+        item={item} 
+        setItem={setItem} 
+        add={add} 
+        onRemove={onRemove}
+      />
+      <GenerateInput 
+        dataType={dataType} 
+        handleChangeDataType={handleChangeDataType}
+        />
     </FormControl>
   </AppLayout>
   );

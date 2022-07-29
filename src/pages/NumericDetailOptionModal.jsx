@@ -12,6 +12,24 @@ import {
     DialogTitle,
   } from '@mui/material/';
 
+
+  function randn_bm(avg, sigma) {
+    let u = 0, v = 0;
+    while(u === 0) u = Math.random() //Converting [0,1) to (0,1)
+    while(v === 0) v = Math.random()
+    let num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v )
+    
+    num = num / 10.0 + 0.5 // Translate to 0 -> 1
+    if (num > 1 || num < 0) 
+      num = randn_bm(avg, sigma) // resample between 0 and 1 if out of range
+    
+    else{
+      num *= sigma // Stretch to fill range
+      num += avg // offset to min
+    }
+    return num
+  }
+
 function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeric}){
     const distributionList = ["Uniform distribution", "Nomal distribution"];
 
@@ -24,8 +42,12 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
     const changeNumericDetail = (event) => {
         numericDetail[event.target.name] = event.target.value;
         setNumericDetail({...numericDetail});
-
       };
+
+    const test = () => {
+        console.log(randn_bm(30, 160));
+    };
+
 
     return(
         <Dialog 
