@@ -62,8 +62,7 @@ const Home = (props) => {
   return (
 <AppLayout>
     <FormControl>
-      <ElementsBoard item={item} setItem={setItem} onRemove={onRemove}/>
-      <Button onClick={add}>Add Column</Button>
+      <ElementsBoard item={item} setItem={setItem} add={add} onRemove={onRemove}/>
       <TextField select label="Datatype" variant="outlined" value={dataType} onChange={handleChangeDataType} required>
                 {dataTypeList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
       </TextField>
