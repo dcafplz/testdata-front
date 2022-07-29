@@ -10,6 +10,7 @@
     "@mui/material": "^5.9.2",
     "axios": "^0.27.2",
     "gapi-script": "^1.2.0",
+    "normal-distribution": "^1.1.1",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.2.0",
