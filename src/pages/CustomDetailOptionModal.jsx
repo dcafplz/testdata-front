@@ -39,7 +39,14 @@ function CustomDetailOptionModal({open, handleClose}){
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
         >
-            <Box sx={modalStyle}>
+            <Box sx={ {display: 'flex',
+    justifyContent: 'center',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,}}>
                 <h2 id="modalTitle">사용자 정의 설정</h2>
                 <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
                 {item.map((i => <div>
