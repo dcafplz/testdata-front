@@ -26,7 +26,7 @@ function Elements({ item, onRemove }){
             <TextField select label="option" variant="outlined" sx={{minWidth: 120 }} value={option} onChange={handleChangeOption} required>
                 {optionList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
             </TextField>
-            {(option == 'Numeric' ? true : false) && <NumericElementsOption/>}
+            {(option == 'Numeric' | option == 'Integer' | option == 'Age' ? true : false) && <NumericElementsOption option={option}/>}
             {(option == 'Custom' ? true : false) && <CustomDetailOption/>}
             <Button onClick={() => onRemove(item.id)}>X</Button>
         </div>
