@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useEffect, useState } from "react";
 import {
     Modal,
     Box,
@@ -12,17 +12,20 @@ import {
     DialogTitle,
   } from '@mui/material/';
 
-// import { modalStyle } from "./ModalStyle.js";
+function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeric}){
+    const distributionList = ["Uniform distribution", "Nomal distribution"];
 
-function NumericDetailOptionModal({open, handleClose, option}){
+    const [numericDetail, setNumericDetail] = useState(numeric);
 
-    const distributionList = ["Uniform distribution", "Nomal distribution"]
+    useEffect(() => {
+        setNumericDetail(numeric);
+    }, [numeric])
 
-    const [distribution, setDistribution] = useState('Uniform distribution');
+    const changeNumericDetail = (event) => {
+        numericDetail[event.target.name] = event.target.value;
+        setNumericDetail({...numericDetail});
 
-    const handleChangeDistribution = (event) => {
-        setDistribution(event.target.value);
-    };
+      };
 
     return(
         <Dialog 
@@ -33,19 +36,19 @@ function NumericDetailOptionModal({open, handleClose, option}){
         <DialogTitle>사용자 정의 설정</DialogTitle>            
         <DialogContent dividers>
                 <p id="modalDescription">숫자 범위를 자유롭게 선택하세요</p>
-                <TextField name="min" label="Min" variant="outlined" type="number" required defaultValue="0"/>
-                <TextField name="max" label="Max" variant="outlined" type="number" required defaultValue="100"/>
-                {option == "Numeric" && <TextField name="decimal point" label="Decimal point(0~10)"
-                variant="outlined" type="number" required defaultValue="1" InputProps={{ inputProps: { min: 0, max: 10} }}/>}
-                <TextField select name="distribution" label="Distribution" value={distribution} onChange={handleChangeDistribution} required>
+                <TextField onChange={changeNumericDetail} name="min" label="Min" variant="outlined" type="number" required value={numericDetail.min}/>
+                <TextField onChange={changeNumericDetail} name="max" label="Max" variant="outlined" type="number" required value={numericDetail.max}/>
+                {option == "Numeric" && <TextField onChange={changeNumericDetail} name="decimalPoint" label="Decimal point(0~10)"
+                variant="outlined" type="number" required value={numericDetail.decimalPoint} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
+                <TextField select onChange={changeNumericDetail} name="distribution" label="Distribution" value={numericDetail.distribution}  required>
                     {distributionList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
                 </TextField>
-                {(distribution == "Nomal distribution" ? true : false) && <>
-                <TextField name="avg" label="Avg" variant="outlined" type="number" required defaultValue="0"/>
-                <TextField name="standardDeviation" label="standard deviation" variant="outlined" type="number" required defaultValue="1"/></>}<br/>
+                {(numericDetail.distribution == "Nomal distribution" ? true : false) && <>
+                <TextField onChange={changeNumericDetail} name="avg" label="Avg" variant="outlined" type="number" required value={numericDetail.avg}/>
+                <TextField onChange={changeNumericDetail} name="standardDeviation" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviation}/></>}<br/>
             </DialogContent>
             <DialogActions>
-            <Button>Apply</Button> 
+            <Button onClick={() => {setNumeric(numericDetail); handleClose()}}>Apply</Button> 
             <Button onClick={() => handleClose()}>Cancle</Button>
             </DialogActions>
           </Dialog>

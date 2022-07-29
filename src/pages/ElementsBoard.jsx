@@ -2,7 +2,14 @@ import React from "react";
 import Elements from "./Elements";
 import { DragDropContext, Droppable, Draggable  } from "react-beautiful-dnd";
 
-function ElementsBoard({ item, setItem, onRemove }){
+import {
+    Container,
+	Typography,
+    Button,
+    Box,
+} from '@mui/material';
+
+function ElementsBoard({ item, setItem, add, onRemove }){
 
     const handleChange = (result) => {
         if (!result.destination) return;
@@ -15,12 +22,18 @@ function ElementsBoard({ item, setItem, onRemove }){
       };
 
     return (
-        <div>
-            <h1>생성을 원하는 데이터를 입력하세요</h1>
+        <Container maxWidth="md" sx={{p:3}}>
+            <Typography
+                gutterBottom
+                variant="h6"
+                component="h1"
+                fontSize="2rem"
+              >생성을 원하는 데이터를 입력하세요
+             </Typography>
             <DragDropContext  onDragEnd={handleChange}>
                 <Droppable droppableId="elements">
                 {(provided) => (
-                <ul 
+                <Box 
                 className="elements"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
@@ -28,19 +41,20 @@ function ElementsBoard({ item, setItem, onRemove }){
                 {item.map(( ({ id }, index) => (
                     <Draggable key={String(id)} draggableId={String(id)} index={index}>
                         {(provided) => 
-                        <li ref={provided.innerRef}
+                        <div ref={provided.innerRef}
                             {...provided.dragHandleProps}
                              {...provided.draggableProps}>
-                                <Elements item={id} key={id} onRemove={onRemove}/>
-                        </li>}
+                               <Elements item={id} key={id.id} onRemove={onRemove}/>
+                        </div>}
                     </Draggable>
                 )))}
                 {provided.placeholder}
-                </ul>
+                </Box>
                 )}
                 </Droppable>
-            </DragDropContext>  
-        </div>
+            </DragDropContext> 
+            <Button onClick={add}>Add Column</Button> 
+        </Container>
     )
 
 }

@@ -14,14 +14,28 @@ function NumericElementsOption({option}){
     const handleOpen = () => {setOpen(true)};
     const handleClose = () => {setOpen(false)};
 
+    const [numeric, setNumeric] = useState({
+        min: 0,
+        max: 100,
+        decimalPoint: 0,
+        distribution: "Uniform distribution",
+        avg: 0,
+        standardDeviation:1
+    })
+
+    const changeNumeric = (event) => {
+        numeric[event.target.name] = event.target.value;
+        setNumeric({...numeric});
+      };
+
     return(
         <>
-            <TextField name="min" label="Min" variant="outlined" type="number" required defaultValue="0"/>
-            <TextField name="max" label="Max" variant="outlined" type="number" required defaultValue="100"/>
-            {option == "Numeric" && <TextField name="decimal point" label="Decimal point(0~10)"
-            variant="outlined" type="number" required defaultValue="1" InputProps={{ inputProps: { min: 0, max: 10} }}/>}
+            <TextField onChange={changeNumeric} name="min" label="Min" variant="outlined" type="number" required value={numeric.min}/>
+            <TextField onChange={changeNumeric} name="max" label="Max" variant="outlined" type="number" required value={numeric.max}/>
+            {option == "Numeric" && <TextField onChange={changeNumeric} name="decimalPoint" label="Decimal point(0~10)"
+            variant="outlined" type="number" required value={numeric.decimalPoint} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
             <Button onClick={handleOpen}>Detail Options</Button>
-            <NumericDetailOptionModal handleClose={handleClose} open={open} option={option}/>
+            <NumericDetailOptionModal handleClose={handleClose} setNumeric={setNumeric} open={open} numeric={numeric} option={option}/>
         </>
     );
 };

@@ -42,7 +42,8 @@ function CustomDetailOptionModal({open, handleClose}){
                 <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
                 {item.map((i => <div>
                         <TextField id={i} lable="Value" name="value"/>
-                        <TextField name="probability" label="Probability " variant="outlined" type="number" required defaultValue="0"/>
+                        <TextField name="probability" label="Probability " variant="outlined" type="number"
+                        required defaultValue="0" inputProps={{min:"0", max:"1",step: "0.01" , lang:"en-US"}}/>
                         <Button onClick={() => onRemove(i.id)}>X</Button>
                     </div>))}
     
