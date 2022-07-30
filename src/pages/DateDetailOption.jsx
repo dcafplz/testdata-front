@@ -9,14 +9,21 @@ import {
 
 function DateDetailOption(){
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {setOpen(true)};
-    const handleClose = () => {setOpen(false)};
+    const [date, setDate] = useState({
+        startDate: "2000-01-01",
+        lastDate: "2021-12-31"
+    });
+
+    function changeDate(event){
+        date[event.target.name] = event.target.value;
+        setDate({...date});
+        console.log(date);
+      };
 
     return(
         <>
-            <TextField name="startDate" label="startDate" variant="outlined" type="date" required/>
-            <TextField name="lastDate" label="lastDate" variant="outlined" type="date" required/>
+            <TextField onChange={changeDate} name="startDate" label="startDate" variant="outlined" type="date" required value={date.startDate}/>
+            <TextField onChange={changeDate} name="lastDate" label="lastDate" variant="outlined" type="date" required value={date.lastDate}/>
         </>
     );
 };

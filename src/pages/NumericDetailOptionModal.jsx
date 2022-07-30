@@ -24,9 +24,25 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
         standardDeviationd: numeric.standardDeviation
     });
 
+    // synchronization(numericDetail, numeric);
+
+    // function synchronization(A, B){
+    //     console.log(A, B)
+    //     for(var key in A){
+    //         A[key] = B[key]
+    //       }
+    //     console.log(A, B)
+    //   };
+
+
     useEffect(() => {
-        console.log(numeric);
-    },[numericDetail])
+        numericDetail.mind = numeric.min;
+        numericDetail.maxd = numeric.max;
+        numericDetail.decimalPointd = numeric.decimalPoint;
+        numericDetail.distributiond = numeric.distribution;
+        numericDetail.avgd = numeric.avg;
+        numericDetail.standardDeviationd = numeric.standardDeviation;
+    },[numeric])
 
 
     const changeNumericDetail = (event) => {
