@@ -17,9 +17,9 @@ import {
 } from '@mui/material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ElementsBoard from "./ElementsBoard"
-
 import AppLayout from "../components/common/AppLayout";
 
+import axios from 'axios'; // 액시오스
 
 const Home = (props) => {
 
@@ -59,6 +59,22 @@ const Home = (props) => {
     nextId.current += 1;
   }
 
+
+  // test 함수
+  const testAxios = (url) => {
+    axios(
+      {
+        method: 'post',
+        baseURL: 'http://localhost:80',
+        withCredentials: true,
+      }
+    ).then(function (response) {
+      alert(response.data);
+    }).catch(function (error){
+      alert(error);
+    });
+  }
+
   return (
 <AppLayout>
     <FormControl>
@@ -69,6 +85,7 @@ const Home = (props) => {
       <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required defaultValue="100" InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
       <Button type="submit" fullWidth>Generate Data</Button>
     </FormControl>
+    <Button fullWidth onClick={testAxios('/api')}>비동기 테스트</Button>
   </AppLayout>
   );
 };

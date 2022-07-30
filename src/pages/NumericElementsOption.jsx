@@ -1,4 +1,4 @@
-import React , { useState } from "react";
+import React , { useState, useEffect, useRef } from "react";
 import '../App.css';
 import {
     TextField,
@@ -9,11 +9,6 @@ import {
 import NumericDetailOptionModal from "./NumericDetailOptionModal";
 
 function NumericElementsOption({option}){
-
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => {setOpen(true)};
-    const handleClose = () => {setOpen(false)};
-
     const [numeric, setNumeric] = useState({
         min: 0,
         max: 100,
@@ -21,7 +16,20 @@ function NumericElementsOption({option}){
         distribution: "Uniform distribution",
         avg: 0,
         standardDeviation:1
-    })
+    });
+
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    useEffect(() => {
+        setNumeric(numeric);
+    },[numeric])
 
     const changeNumeric = (event) => {
         numeric[event.target.name] = event.target.value;
