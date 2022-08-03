@@ -19,18 +19,22 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ElementsBoard from "./ElementsBoard"
 import AppLayout from "../components/common/AppLayout";
 
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 
 const Home = (props) => {
 
   const dataTypeList = ["SQL", "JSON", "CSV", "EXCEL(.xls)"]
 
   const [dataType, setDataType] = useState('');
+  const [dataSize, setDataSize] = useState(100);
 
   const handleChangeDataType = (event) => {
     setDataType(event.target.value);
   };
 
+  const handleChangeDataSize = (event) => {
+    setDataSize(event.target.value);
+  };
 
   const nextId = useRef(4);
   const [item, setItem] = useState([
@@ -57,36 +61,33 @@ const Home = (props) => {
     nextId.current += 1;
   }
 
-
-
-  // test 함수
-  async function testAxios(url) {
-    await axios(
-      {
-        method: 'post',
-        baseURL: 'http://localhost:80',
-        withCredentials: true,
+  function submit(url){
+    axios({
+      method: 'get',
+      url: "http://localhost:80"+url,
+      params: {
+        dataType: dataType,
+        dataSize: dataSize,
+        item: encodeURIComponent(item)
       }
-    ).then(function (response) {
+    }).then(function (response) {
       alert(response.data);
-      console.log("성공");
-    }).catch(function (error){
+    }).catch(function (error) {
       alert(error);
-      console.log("에러");
     });
-  };
+  }
+
 
   return (
 <AppLayout>
-    <FormControl>
+    <FormControl >
       <ElementsBoard item={item} setItem={setItem} add={add} onRemove={onRemove}/>
       <TextField select label="Datatype" variant="outlined" value={dataType} onChange={handleChangeDataType} required>
                 {dataTypeList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
       </TextField>
-      <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required defaultValue="100" InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
-      <Button type="submit" fullWidth>Generate Data</Button>
+      <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required value={dataSize} onChange={handleChangeDataSize} InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
+      <Button onClick={() => submit("/recive")}>Generate Data</Button>
     </FormControl>
-    <Button fullWidth onClick={() => testAxios('/api')}>비동기 테스트</Button>
   </AppLayout>
   );
 };

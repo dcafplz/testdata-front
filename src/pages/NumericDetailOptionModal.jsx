@@ -24,16 +24,6 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
         standardDeviationd: numeric.standardDeviation
     });
 
-    // synchronization(numericDetail, numeric);
-
-    // function synchronization(A, B){
-    //     console.log(A, B)
-    //     for(var key in A){
-    //         A[key] = B[key]
-    //       }
-    //     console.log(A, B)
-    //   };
-
 
     useEffect(() => {
         numericDetail.mind = numeric.min;
