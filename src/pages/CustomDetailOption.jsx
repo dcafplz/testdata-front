@@ -1,10 +1,7 @@
 import React , { useState } from "react";
 import '../App.css';
-import {
-    TextField,
-    MenuItem, 
+import { 
     Button,
-    useThemeProps,
   } from '@mui/material/';
 import CustomDetailOptionModal from "./CustomDetailOptionModal";
 

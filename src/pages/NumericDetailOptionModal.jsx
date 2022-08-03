@@ -34,6 +34,7 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
     const distributionList = ["Uniform distribution", "Nomal distribution"];
 
     const [numericDetail, setNumericDetail] = useState(numeric);
+    const [result, setResult] = useState([]);
 
     useEffect(() => {
         setNumericDetail(numeric);
@@ -42,10 +43,24 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
     const changeNumericDetail = (event) => {
         numericDetail[event.target.name] = event.target.value;
         setNumericDetail({...numericDetail});
+        gaussianRandom();
       };
 
-    const test = () => {
-        console.log(randn_bm(30, 160));
+    const gaussianRandom = () => {
+        let ramdomNum = 0;
+        let tempResult = [];
+        let j = 0;
+        for(let i = 0; i < 1000 + j; i++ ){
+
+            ramdomNum = randn_bm(parseFloat(numericDetail.avg === "" ? "0" : numericDetail.avg), parseFloat(numericDetail.standardDeviation === "" ? "0" : numericDetail.standardDeviation));
+            if (ramdomNum >= parseInt(numericDetail.min) && ramdomNum <= parseInt(numericDetail.max)) {
+                tempResult.push(ramdomNum);
+			} else {
+				j++;
+			}
+        }
+        console.log(tempResult);
+        
     };
 
 
