@@ -7,7 +7,8 @@ import {
     useThemeProps,
   } from '@mui/material/';;
 
-function DateDetailOption(){
+function DateDetailOption({setItem, item, index}){
+
 
     const [date, setDate] = useState({
         startDate: "2000-01-01",
@@ -17,7 +18,9 @@ function DateDetailOption(){
     function changeDate(event){
         date[event.target.name] = event.target.value;
         setDate({...date});
-        console.log(date);
+        const items = [...item];
+        items[index].settings = date;
+        setItem([...items]);
       };
 
     return(

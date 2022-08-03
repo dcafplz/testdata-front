@@ -8,18 +8,18 @@ import {
   } from '@mui/material/';
 import CustomDetailOptionModal from "./CustomDetailOptionModal";
 
-function ElementsNumericOption(){
+function CustomDetailOption({setItem, item, index}){
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {setOpen(true)};
     const handleClose = () => {setOpen(false)};
-
+    
     return(
         <>
             <Button onClick={handleOpen}>Detail Options</Button>
-            <CustomDetailOptionModal handleClose={handleClose} open={open}/>
+            <CustomDetailOptionModal item={item} index={index} setItem={setItem} handleClose={handleClose} open={open}/>
         </>
     );
 };
 
-export default ElementsNumericOption;
+export default CustomDetailOption;

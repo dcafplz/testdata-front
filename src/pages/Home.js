@@ -1,4 +1,4 @@
-import React, { useState, useRef  } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {
   Avatar,
   Button,
@@ -40,22 +40,34 @@ const Home = (props) => {
   const [item, setItem] = useState([
     {
       id: 1,
+      colname: "",
+      option: null,
+      settings: null
     },
     {
       id: 2,
+      colname: "",
+      option: null,
+      settings: null
     },
     {
       id: 3,
+      colname: "",
+      option: null,
+      settings: null
     }
-  ])
-
+  ]);
+  console.log(item);
   const onRemove = id => {
     setItem(item.filter(i => i.id !== id));
   };
 
   const add = () => {
     const nextItem = {
-      id: nextId.current
+      id: nextId.current,
+      colname: "",
+      option: null,
+      settings: null
     };
     setItem(item.concat(nextItem));
     nextId.current += 1;
@@ -68,7 +80,6 @@ const Home = (props) => {
       params: {
         dataType: dataType,
         dataSize: dataSize,
-        item: encodeURIComponent(item)
       }
     }).then(function (response) {
       alert(response.data);

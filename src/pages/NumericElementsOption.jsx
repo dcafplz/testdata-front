@@ -8,7 +8,7 @@ import {
   } from '@mui/material/';
 import NumericDetailOptionModal from "./NumericDetailOptionModal";
 
-function NumericElementsOption({option}){
+function NumericElementsOption({option, setItem, item, index}){
     const [numeric, setNumeric] = useState({
         min: 0,
         max: 100,
@@ -29,6 +29,9 @@ function NumericElementsOption({option}){
 
     useEffect(() => {
         setNumeric(numeric);
+        const items = [...item];
+        items[index].settings = numeric;
+        setItem([...items]);
     },[numeric])
 
     const changeNumeric = (event) => {
@@ -43,7 +46,7 @@ function NumericElementsOption({option}){
             {option == "Numeric" && <TextField onChange={changeNumeric} name="decimalPoint" label="Decimal point(0~10)"
             variant="outlined" type="number" required value={numeric.decimalPoint} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
             <Button onClick={handleOpen}>Detail Options</Button>
-            <NumericDetailOptionModal handleClose={handleClose} setNumeric={setNumeric} open={open} numeric={numeric} option={option}/>
+            <NumericDetailOptionModal handleClose={handleClose} setNumeric={setNumeric} open={open} numeric={numeric} option={option} item={item} index={index} setItem={setItem}/>
         </>
     );
 };

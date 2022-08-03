@@ -13,9 +13,9 @@ import {
 
 
 
-function CustomDetailOptionModal({open, handleClose}){
+function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
 
-    const [item, setItem] = useState([
+    const [values, setValues] = useState([
         {
           id: 1,
           value: '',
@@ -25,24 +25,30 @@ function CustomDetailOptionModal({open, handleClose}){
 
     const nextId = useRef(2);
 
+    const apply = () => {
+        const items = [...item];
+        items[index].settings = values
+        setItem([...items])
+    };
+
     const add = () => {
-        const nextItem = {
+        const nextValues = {
           id: nextId.current,
           value: '',
           probability: null
         };
-        setItem(item.concat(nextItem));
+        setValues(values.concat(nextValues));
         nextId.current += 1;
       }
 
     const onRemove = id => {
-        setItem(item.filter(i => i.id !== id));
+      setValues(values.filter(i => i.id !== id));
     };
 
 
     function changeOption(event, id){
-      item[id-1][event.target.name] = event.target.value;
-      setItem(item.slice());
+      values[id-1][event.target.name] = event.target.value;
+      setValues(values.slice());
     };
 
     return(
@@ -50,7 +56,7 @@ function CustomDetailOptionModal({open, handleClose}){
       <DialogTitle>사용자 정의 설정</DialogTitle>
       <DialogContent dividers>
                 <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
-                {item.map((i => <div>
+                {values.map((i => <div>
                         <TextField onChange={(event) => changeOption(event, i.id)} lable="Value" name="value" value={i.value}/>
                         <TextField onChange={(event) => changeOption(event, i.id)} name="probability" label="Probability " variant="outlined" type="number"
                         required value={i.probability} inputProps={{min:"0", max:"1",step: "0.01"}}/>
@@ -60,7 +66,7 @@ function CustomDetailOptionModal({open, handleClose}){
           </DialogContent>
           <DialogActions>
           <Button onClick={add}>Add Column</Button>
-          <Button onClick={() => handleClose()}>Apply</Button>
+          <Button onClick={() => {apply(); handleClose()}}>Apply</Button>
           <Button onClick={() => handleClose()}>Cancle</Button>
           </DialogActions>
           </Dialog>

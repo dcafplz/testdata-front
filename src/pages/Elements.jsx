@@ -13,14 +13,14 @@ import NumericElementsOption from "./NumericElementsOption";
 import CustomDetailOption from "./CustomDetailOption";
 import DatedetailOption from "./DateDetailOption";
 
-function Elements({ item, onRemove }){
+function Elements({ item, onRemove, setItem, index}){
 
     const optionList = ["Id", "Name", "Integer", "Numeric", "Gender", "Age", "BirthDate", "Date", "Custom"]
 
-    const [option, setOption] = useState('');
-
-    const handleChangeOption = (event) => {
-        setOption(event.target.value);
+    const handleChange = (event, n) => {
+        const items = [...item];
+        items[index][n] = event.target.value;
+        setItem([...items]);
       };
     
 
@@ -32,14 +32,14 @@ function Elements({ item, onRemove }){
             alignItems: 'center' 
             }}>
             <DragIndicatorIcon/> 
-            <TextField name="colname" label="Column Name" variant="outlined" required/>
-            <TextField select label="option" variant="outlined" sx={{minWidth: 120 }} value={option} onChange={handleChangeOption} required>
+            <TextField name="colname" label="Column Name" variant="outlined" value={item[index].colname} onChange={(event) => handleChange(event, "colname")} required/>
+            <TextField select label="option" variant="outlined" sx={{minWidth: 120 }} value={item[index].option} onChange={(event) =>  handleChange(event, "option")} required>
                 {optionList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
             </TextField>
-            {(option == 'Numeric' | option == 'Integer' | option == 'Age' ? true : false) && <NumericElementsOption option={option}/>}
-            {(option == 'BirthDate' | option == 'Date' ? true : false) && <DatedetailOption/>}
-            {(option == 'Custom' ? true : false) && <CustomDetailOption/>}
-            <Button onClick={() => onRemove(item)}><DeleteIcon /></Button>
+            {(item[index].option == 'Numeric' | item[index].option == 'Integer' | item[index].option == 'Age' ? true : false) && <NumericElementsOption item={item} index={index} setItem={setItem} option={item[index].option}/>}
+            {(item[index].option == 'BirthDate' | item[index].option == 'Date' ? true : false) && <DatedetailOption item={item} index={index} setItem={setItem} />}
+            {(item[index].option == 'Custom' ? true : false) && <CustomDetailOption item={item} index={index} setItem={setItem}/>}
+            <Button onClick={() => onRemove(item[index].id)}><DeleteIcon/></Button>
         </Container>
     );
 };
