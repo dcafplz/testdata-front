@@ -1,4 +1,5 @@
 import React , { useEffect, useState } from "react";
+import ApexCharts from 'react-apexcharts'
 import {
     Modal,
     Box,
@@ -54,14 +55,75 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
 
             ramdomNum = randn_bm(parseFloat(numericDetail.avg === "" ? "0" : numericDetail.avg), parseFloat(numericDetail.standardDeviation === "" ? "0" : numericDetail.standardDeviation));
             if (ramdomNum >= parseInt(numericDetail.min) && ramdomNum <= parseInt(numericDetail.max)) {
-                tempResult.push(ramdomNum);
+                tempResult.push(ramdomNum.toFixed(2));
 			} else {
 				j++;
 			}
         }
-        console.log(tempResult);
+        // setResult(tempResult.reduce((accu, curr) => { 
+        //     accu[curr] = (accu[curr] || 0)+1; 
+        //     return accu;
+        //   }, {}));
+
+        const unordered = tempResult.reduce((accu, curr) => { 
+            accu[curr] = (accu[curr] || 0)+1; 
+            return accu;
+          }, {});
+        const ordered = {};
+
+        Object.keys(unordered).sort().forEach(function(key) {
+            ordered[key] = unordered[key];
+        })
         
+        setResult(ordered);
     };
+
+    const chartState = {
+          
+        series: [{
+          name: "nomal",
+          data: Object.values(result)
+        }],
+        options: {
+          chart: {
+            type: 'area',
+            height: 350,
+            zoom: {
+              enabled: false
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'straight'
+          },
+          
+          title: {
+            text: '그래프',
+            align: 'left'
+          },
+          subtitle: {
+            text: '정규분포',
+            align: 'left'
+          },
+          labels: Object.keys(result),
+          xaxis: {
+            type: 'number',
+          },
+          yaxis: {
+            opposite: true
+          },
+          legend: {
+            horizontalAlign: 'left'
+          }
+        },
+      
+      
+      };
+
+
+
 
 
     return(
@@ -83,6 +145,9 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
                 {(numericDetail.distribution == "Nomal distribution" ? true : false) && <>
                 <TextField onChange={changeNumericDetail} name="avg" label="Avg" variant="outlined" type="number" required value={numericDetail.avg}/>
                 <TextField onChange={changeNumericDetail} name="standardDeviation" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviation}/></>}<br/>
+                <div id="chart">
+  <ApexCharts options={chartState.options} series={chartState.series} type="area" height={350} />
+</div>
             </DialogContent>
             <DialogActions>
             <Button onClick={() => {setNumeric(numericDetail); handleClose()}}>Apply</Button> 
