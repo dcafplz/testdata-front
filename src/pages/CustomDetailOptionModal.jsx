@@ -46,8 +46,8 @@ function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
     };
 
 
-    function changeOption(event, id){
-      values[id-1][event.target.name] = event.target.value;
+    function changeOption(event, index){
+      values[index][event.target.name] = event.target.value;
       setValues(values.slice());
     };
 
@@ -56,9 +56,9 @@ function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
       <DialogTitle>사용자 정의 설정</DialogTitle>
       <DialogContent dividers>
                 <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
-                {values.map((i => <div>
-                        <TextField onChange={(event) => changeOption(event, i.id)} lable="Value" name="value" value={i.value}/>
-                        <TextField onChange={(event) => changeOption(event, i.id)} name="probability" label="Probability " variant="outlined" type="number"
+                {values.map(((i, index) => <div>
+                        <TextField onChange={(event) => changeOption(event, index)} lable="Value" name="value" value={i.value}/>
+                        <TextField onChange={(event) => changeOption(event, index)} name="probability" label="Probability " variant="outlined" type="number"
                         required value={i.probability} inputProps={{min:"0", max:"1",step: "0.01"}}/>
                         <Button onClick={() => onRemove(i.id)}>X</Button>
                     </div>))}

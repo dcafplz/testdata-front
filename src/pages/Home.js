@@ -80,6 +80,7 @@ const Home = (props) => {
       params: {
         dataType: dataType,
         dataSize: dataSize,
+        item: encodeURI(JSON.stringify(item))
       }
     }).then(function (response) {
       alert(response.data);
