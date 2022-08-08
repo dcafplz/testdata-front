@@ -23,7 +23,7 @@ function ElementsBoard({ item, setItem, add, onRemove }){
         setItem(items);
       };
     
-
+      
     
     return (
         <Container maxWidth="md" sx={{p:3}}>

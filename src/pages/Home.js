@@ -73,33 +73,40 @@ const Home = (props) => {
     nextId.current += 1;
   }
 
-  function submit(url){
-    axios({
-      method: 'get',
-      url: "http://localhost:80"+url,
-      params: {
-        dataType: dataType,
-        dataSize: dataSize,
-        item: encodeURI(JSON.stringify(item))
-      }
-    }).then(function (response) {
-      alert(response.data);
-    }).catch(function (error) {
-      alert(error);
-    });
+  function submit(e){
+    e.preventDefault();
+    if ((item.filter(i => i.option == "Custom" && (i.settings == null)).length) !== 0){
+      alert("Custom 데이터 세부설정이 필요합니다.");
+    }else{
+      axios({
+        method: 'get',
+        url: "http://localhost:80/recive",
+        params: {
+          dataType: dataType,
+          dataSize: dataSize,
+          item: encodeURI(JSON.stringify(item))
+        }
+      }).then(function (response) {
+        alert(response.data);
+      }).catch(function (error) {
+        alert(error);
+      });
+    }
   }
 
 
   return (
 <AppLayout>
+    <form onSubmit={submit}> 
     <FormControl >
       <ElementsBoard item={item} setItem={setItem} add={add} onRemove={onRemove}/>
       <TextField select label="Datatype" variant="outlined" value={dataType} onChange={handleChangeDataType} required>
                 {dataTypeList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
       </TextField>
       <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required value={dataSize} onChange={handleChangeDataSize} InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
-      <Button onClick={() => submit("/recive")}>Generate Data</Button>
+      <Button type={submit}>Generate Data</Button>
     </FormControl>
+    </form>
   </AppLayout>
   );
 };

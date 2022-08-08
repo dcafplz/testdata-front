@@ -26,9 +26,18 @@ function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
     const nextId = useRef(2);
 
     const apply = () => {
-        const items = [...item];
-        items[index].settings = values
-        setItem([...items])
+        var sum = 0;
+        values.forEach(v => {sum += parseFloat(v.probability)});
+        console.log(sum);
+        if(sum == 1){
+          const items = [...item];
+          items[index].settings = values
+          setItem([...items])
+          handleClose()
+        }else{
+          alert("데이터의 발생확률 합계는 100% 여야 합니다.")
+        }
+
     };
 
     const add = () => {
@@ -55,9 +64,9 @@ function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
       <Dialog open={open} onClose={() => handleClose()}>            
       <DialogTitle>사용자 정의 설정</DialogTitle>
       <DialogContent dividers>
-                <p id="modalDescription">값과 발생 확률을 자유롭게 선택하세요</p>
+                <p>값과 발생 확률을 자유롭게 선택하세요</p>
                 {values.map(((i, index) => <div>
-                        <TextField onChange={(event) => changeOption(event, index)} lable="Value" name="value" value={i.value}/>
+                        <TextField onChange={(event) => changeOption(event, index)} lable="Value" name="value" value={i.value} required/>
                         <TextField onChange={(event) => changeOption(event, index)} name="probability" label="Probability " variant="outlined" type="number"
                         required value={i.probability} inputProps={{min:"0", max:"1",step: "0.01"}}/>
                         <Button onClick={() => onRemove(i.id)}>X</Button>
@@ -66,7 +75,7 @@ function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
           </DialogContent>
           <DialogActions>
           <Button onClick={add}>Add Column</Button>
-          <Button onClick={() => {apply(); handleClose()}}>Apply</Button>
+          <Button onClick={() => {apply()}}>Apply</Button>
           <Button onClick={() => handleClose()}>Cancle</Button>
           </DialogActions>
           </Dialog>
