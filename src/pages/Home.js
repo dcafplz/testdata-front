@@ -24,6 +24,9 @@ import axios, { Axios } from 'axios';
 
 const Home = (props) => {
 
+  const dataTypeList = ["SQL", "JSON", "CSV", "EXCEL(.xls)"]
+
+
   const [dataType, setDataType] = useState('');
   const [dataSize, setDataSize] = useState(100);
 
