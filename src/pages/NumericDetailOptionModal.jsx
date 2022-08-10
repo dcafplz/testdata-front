@@ -1,5 +1,6 @@
-import React , { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ApexCharts from 'react-apexcharts'
+
 import {
     Modal,
     Box,
@@ -34,12 +35,25 @@ import {
 function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeric}){
     const distributionList = ["Uniform distribution", "Nomal distribution"];
 
-    const [numericDetail, setNumericDetail] = useState(numeric);
+    const [numericDetail, setNumericDetail] = useState({
+        mind: numeric.min,
+        maxd: numeric.max,
+        decimalPointd: numeric.decimalPoint,
+        distributiond: numeric.distribution,
+        avgd: numeric.avg,
+        standardDeviationd: numeric.standardDeviation
+    });
     const [result, setResult] = useState([]);
 
     useEffect(() => {
-        setNumericDetail(numeric);
-    }, [numeric])
+        numericDetail.mind = numeric.min;
+        numericDetail.maxd = numeric.max;
+        numericDetail.decimalPointd = numeric.decimalPoint;
+        numericDetail.distributiond = numeric.distribution;
+        numericDetail.avgd = numeric.avg;
+        numericDetail.standardDeviationd = numeric.standardDeviation;
+    },[numeric])
+
 
     const changeNumericDetail = (event) => {
         numericDetail[event.target.name] = event.target.value;
@@ -119,13 +133,17 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
           }
         },
       
-      
       };
-
-
-
-
-
+    
+    const apply = () => {
+        numeric.min = numericDetail.mind;
+        numeric.max = numericDetail.maxd;
+        numeric.decimalPoint = numericDetail.decimalPointd;
+        numeric.distribution = numericDetail.distributiond;
+        numeric.avg = numericDetail.avgd;
+        numeric.standardDeviation = numericDetail.standardDeviationd;
+    };
+    
     return(
         <Dialog 
             open={open} 
@@ -135,22 +153,22 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
         <DialogTitle>사용자 정의 설정</DialogTitle>            
         <DialogContent dividers>
                 <p id="modalDescription">숫자 범위를 자유롭게 선택하세요</p>
-                <TextField onChange={changeNumericDetail} name="min" label="Min" variant="outlined" type="number" required value={numericDetail.min}/>
-                <TextField onChange={changeNumericDetail} name="max" label="Max" variant="outlined" type="number" required value={numericDetail.max}/>
-                {option == "Numeric" && <TextField onChange={changeNumericDetail} name="decimalPoint" label="Decimal point(0~10)"
-                variant="outlined" type="number" required value={numericDetail.decimalPoint} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
-                <TextField select onChange={changeNumericDetail} name="distribution" label="Distribution" value={numericDetail.distribution}  required>
+                <TextField onChange={changeNumericDetail} name="mind" label="Min" variant="outlined" type="number" required value={numericDetail.mind}/>
+                <TextField onChange={changeNumericDetail} name="maxd" label="Max" variant="outlined" type="number" required value={numericDetail.maxd}/>
+                {option == "Numeric" && <TextField onChange={changeNumericDetail} name="decimalPointd" label="Decimal point(0~10)"
+                variant="outlined" type="number" required value={numericDetail.decimalPointd} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
+                <TextField select onChange={changeNumericDetail} name="distributiond" label="Distribution" value={numericDetail.distributiond}  required>
                     {distributionList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
                 </TextField>
-                {(numericDetail.distribution == "Nomal distribution" ? true : false) && <>
-                <TextField onChange={changeNumericDetail} name="avg" label="Avg" variant="outlined" type="number" required value={numericDetail.avg}/>
-                <TextField onChange={changeNumericDetail} name="standardDeviation" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviation}/></>}<br/>
+                {(numericDetail.distributiond == "Nomal distribution" ? true : false) && <>
+                <TextField onChange={changeNumericDetail} name="avgd" label="Avg" variant="outlined" type="number" required value={numericDetail.avgd}/>
+                <TextField onChange={changeNumericDetail} name="standardDeviationd" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviationd}/></>}<br/>
                 <div id="chart">
-  <ApexCharts options={chartState.options} series={chartState.series} type="area" height={350} />
-</div>
+                <ApexCharts options={chartState.options} series={chartState.series} type="area" height={350} />
+                </div>
             </DialogContent>
             <DialogActions>
-            <Button onClick={() => {setNumeric(numericDetail); handleClose()}}>Apply</Button> 
+            <Button onClick={() => {apply(); handleClose()}}>Apply</Button> 
             <Button onClick={() => handleClose()}>Cancle</Button>
             </DialogActions>
           </Dialog>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from 'react';
 import Elements from "./Elements";
 import { DragDropContext, Droppable, Draggable  } from "react-beautiful-dnd";
 
@@ -8,6 +8,8 @@ import {
     Button,
     Box,
 } from '@mui/material';
+
+import { inputData } from './Home';
 
 function ElementsBoard({ item, setItem, add, onRemove }){
 
@@ -20,7 +22,9 @@ function ElementsBoard({ item, setItem, add, onRemove }){
     
         setItem(items);
       };
-
+    
+      
+    
     return (
         <Container maxWidth="md" sx={{p:3}}>
             <Typography
@@ -44,7 +48,7 @@ function ElementsBoard({ item, setItem, add, onRemove }){
                         <div ref={provided.innerRef}
                             {...provided.dragHandleProps}
                              {...provided.draggableProps}>
-                               <Elements item={id} key={id.id} onRemove={onRemove}/>
+                               <Elements item={item} index={index} key={id} onRemove={onRemove} setItem={setItem}/>
                         </div>}
                     </Draggable>
                 )))}
