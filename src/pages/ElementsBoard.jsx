@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Elements from "./Elements";
 import { DragDropContext, Droppable, Draggable  } from "react-beautiful-dnd";
 
@@ -8,8 +8,6 @@ import {
     Button,
     Box,
 } from '@mui/material';
-
-import { inputData } from './Home';
 
 function ElementsBoard({ item, setItem, add, onRemove }){
 
@@ -57,7 +55,7 @@ function ElementsBoard({ item, setItem, add, onRemove }){
                 )}
                 </Droppable>
             </DragDropContext> 
-            <Button onClick={add}>Add Column</Button> 
+            <Button onClick={add}>데이터 추가</Button> 
         </Container>
     )
 

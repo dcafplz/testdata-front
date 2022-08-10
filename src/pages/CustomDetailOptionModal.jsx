@@ -1,6 +1,6 @@
-import React , { useState, useRef, useEffect } from "react";
+import React , { useState, useRef } from "react";
 import {
-    Box,
+    Container, 
     TextField,
     Button,
     Dialog,
@@ -9,10 +9,9 @@ import {
     DialogActions,
     DialogTitle,
   } from '@mui/material/';
+
+import DeleteIcon from '@mui/icons-material/Delete';
   
-
-
-
 function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
 
     const [values, setValues] = useState([
@@ -64,19 +63,25 @@ function CustomDetailOptionModal({open, handleClose, setItem, item, index}){
       <Dialog open={open} onClose={() => handleClose()}>            
       <DialogTitle>사용자 정의 설정</DialogTitle>
       <DialogContent dividers>
-                <p>값과 발생 확률을 자유롭게 선택하세요</p>
-                {values.map(((i, index) => <div>
-                        <TextField onChange={(event) => changeOption(event, index)} lable="Value" name="value" value={i.value} required/>
-                        <TextField onChange={(event) => changeOption(event, index)} name="probability" label="Probability " variant="outlined" type="number"
-                        required value={i.probability} inputProps={{min:"0", max:"1",step: "0.01"}}/>
-                        <Button onClick={() => onRemove(i.id)}>X</Button>
-                    </div>))}
+                <DialogContentText>값과 발생 확률을 자유롭게 선택하세요</DialogContentText><br/>
+                {values.map(((i, index) =>
+                  <Container 
+                    sx={{ 
+                        p: 1, 
+                        display: 'flex',
+                        alignItems: 'center' 
+                        }}>
+                          <TextField onChange={(event) => changeOption(event, index)} lable="Value" name="value" value={i.value} required/>
+                          <TextField onChange={(event) => changeOption(event, index)} name="probability" label="Probability " variant="outlined" type="number"
+                          required value={i.probability} inputProps={{min:"0", max:"1",step: "0.01"}}/>
+                          <Button onClick={() => onRemove(i.id)}><DeleteIcon/></Button>
+                    </Container>))}
     
           </DialogContent>
           <DialogActions>
-          <Button onClick={add}>Add Column</Button>
-          <Button onClick={() => {apply()}}>Apply</Button>
-          <Button onClick={() => handleClose()}>Cancle</Button>
+          <Button onClick={add}>데이터 추가</Button>
+          <Button onClick={() => {apply()}}>적용</Button>
+          <Button onClick={() => handleClose()}>취소</Button>
           </DialogActions>
           </Dialog>
     );

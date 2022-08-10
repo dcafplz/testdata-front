@@ -1,8 +1,6 @@
 import React , { useState, useEffect} from "react";
 import ApexCharts from 'react-apexcharts'
 import {
-    Modal,
-    Box,
     TextField,
     MenuItem,
     Button,
@@ -12,6 +10,8 @@ import {
     DialogActions,
     DialogTitle,
   } from '@mui/material/';
+
+import styled from "styled-components";
 
 function randn_bm(avg, sigma) {
     let u = 0, v = 0;
@@ -149,17 +149,17 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
             fullWidth={true}>            
         <DialogTitle>사용자 정의 설정</DialogTitle>            
         <DialogContent dividers>
-                <p id="modalDescription">숫자 범위를 자유롭게 선택하세요</p>
-                <TextField onChange={changeNumericDetail} name="mind" label="Min" variant="outlined" type="number" required value={numericDetail.mind}/>
-                <TextField onChange={changeNumericDetail} name="maxd" label="Max" variant="outlined" type="number" required value={numericDetail.maxd}/>
-                {option == "Numeric" && <TextField onChange={changeNumericDetail} name="decimalPointd" label="Decimal point(0~10)"
+                <DialogContentText>숫자 범위를 자유롭게 선택하세요</DialogContentText><br/>
+                <PointInput onChange={changeNumericDetail} name="mind" label="Min" variant="outlined" type="number" required value={numericDetail.mind}/>
+                <PointInput onChange={changeNumericDetail} name="maxd" label="Max" variant="outlined" type="number" required value={numericDetail.maxd}/>
+                {option == "Numeric" && <PointInput onChange={changeNumericDetail} name="decimalPointd" label="Decimal point(0~10)"
                 variant="outlined" type="number" required value={numericDetail.decimalPointd} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
                 <TextField select onChange={changeNumericDetail} name="distributiond" label="Distribution" value={numericDetail.distributiond}  required>
                     {distributionList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
                 </TextField>
                 {(numericDetail.distributiond == "Nomal distribution" ? true : false) && <>
-                <TextField onChange={changeNumericDetail} name="avgd" label="Avg" variant="outlined" type="number" required value={numericDetail.avgd}/>
-                <TextField onChange={changeNumericDetail} name="standardDeviationd" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviationd}/>
+                <PointInput onChange={changeNumericDetail} name="avgd" label="Avg" variant="outlined" type="number" required value={numericDetail.avgd}/>
+                <PointInput onChange={changeNumericDetail} name="standardDeviationd" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviationd}/>
                 <div id="chart">
                   <ApexCharts options={chartState.options} series={chartState.series} type="area" height={350} />
                 </div>
@@ -168,11 +168,14 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
                
             </DialogContent>
             <DialogActions>
-            <Button onClick={() => {apply(); handleClose()}}>Apply</Button> 
-            <Button onClick={() => handleClose()}>Cancle</Button>
+            <Button onClick={() => {apply(); handleClose()}}>적용</Button> 
+            <Button onClick={() => handleClose()}>취소</Button>
             </DialogActions>
           </Dialog>
     );
 };
 
 export default NumericDetailOptionModal;
+
+const PointInput = styled(TextField)`
+  width: 150px`;

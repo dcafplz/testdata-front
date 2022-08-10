@@ -1,12 +1,12 @@
-import React , { useState, useEffect, useRef } from "react";
+import React , { useState, useEffect } from "react";
 import '../App.css';
 import {
     TextField,
-    MenuItem, 
     Button,
-    useThemeProps,
   } from '@mui/material/';
 import NumericDetailOptionModal from "./NumericDetailOptionModal";
+
+import styled from "styled-components";
 
 function NumericElementsOption({option, setItem, item, index}){
     const [numeric, setNumeric] = useState({
@@ -41,14 +41,20 @@ function NumericElementsOption({option, setItem, item, index}){
 
     return(
         <>
-            <TextField onChange={changeNumeric} name="min" label="Min" variant="outlined" type="number" required value={numeric.min}/>
-            <TextField onChange={changeNumeric} name="max" label="Max" variant="outlined" type="number" required value={numeric.max}/>
-            {option == "Numeric" && <TextField onChange={changeNumeric} name="decimalPoint" label="Decimal point(0~10)"
+            <PointInput onChange={changeNumeric} name="min" label="Min" variant="outlined" type="number" required value={numeric.min}/>
+            <PointInput onChange={changeNumeric} name="max" label="Max" variant="outlined" type="number" required value={numeric.max}/>
+            {option == "Numeric" && <PointInput onChange={changeNumeric} name="decimalPoint" label="Decimal point(0~10)"
             variant="outlined" type="number" required value={numeric.decimalPoint} InputProps={{ inputProps: { min: 0, max: 10} }}/>}
-            <Button onClick={handleOpen}>Detail Options</Button>
+            <DetailButton onClick={handleOpen}>세부설정</DetailButton>
             <NumericDetailOptionModal handleClose={handleClose} setNumeric={setNumeric} open={open} numeric={numeric} option={option} item={item} index={index} setItem={setItem}/>
         </>
     );
 };
 
 export default NumericElementsOption;
+
+const DetailButton = styled(Button)`
+  width: 80px`;
+
+const PointInput = styled(TextField)`
+  width: 150px`;

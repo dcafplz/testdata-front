@@ -2,10 +2,8 @@ import React , { useState } from "react";
 import '../App.css';
 import {
     TextField,
-    MenuItem, 
-    Button,
-    useThemeProps,
-  } from '@mui/material/';;
+  } from '@mui/material/';
+;
 
 function DateDetailOption({setItem, item, index}){
 
@@ -17,10 +15,15 @@ function DateDetailOption({setItem, item, index}){
 
     function changeDate(event){
         date[event.target.name] = event.target.value;
-        setDate({...date});
-        const items = [...item];
-        items[index].settings = date;
-        setItem([...items]);
+        if (date.startDate < date.lastDate){
+            setDate({...date});
+            const items = [...item];
+            items[index].settings = date;
+            setItem([...items]);
+            console.log(date.startDate)
+        }else{
+            alert("종료 날짜가 시작 날짜보다 빠릅니다");
+        }
       };
 
     return(

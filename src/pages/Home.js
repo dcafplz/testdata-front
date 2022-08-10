@@ -1,29 +1,14 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
   FormControl,
-  FormControlLabel,
-  Checkbox,
-  FormHelperText,
-  Grid,
-  Box,
-  Typography,
-  Container,
-  FormGroup,
-  MenuItem ,
 } from '@mui/material/';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ElementsBoard from "./ElementsBoard"
 import AppLayout from "../components/common/AppLayout";
+import GenerateInput from "./GenerateInput";
 
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 
 const Home = (props) => {
-
-  const dataTypeList = ["SQL", "JSON", "CSV", "EXCEL(.xls)"]
 
   const [dataType, setDataType] = useState('');
   const [dataSize, setDataSize] = useState(100);
@@ -100,11 +85,11 @@ const Home = (props) => {
     <form onSubmit={submit}> 
     <FormControl >
       <ElementsBoard item={item} setItem={setItem} add={add} onRemove={onRemove}/>
-      <TextField select label="Datatype" variant="outlined" value={dataType} onChange={handleChangeDataType} required>
-                {dataTypeList.map(list => <MenuItem key={list} value={list}>{list}</MenuItem>)}
-      </TextField>
-      <TextField name="dataSize" label="DataSize(1~5000)" variant="outlined" type="number" required value={dataSize} onChange={handleChangeDataSize} InputProps={{ inputProps: { min: 1, max: 5000 } }}/>
-      <Button type={submit}>Generate Data</Button>
+      <GenerateInput 
+        dataType={dataType} 
+        handleChangeDataType={handleChangeDataType}
+        handleChangeDataSize={handleChangeDataSize}
+        />
     </FormControl>
     </form>
   </AppLayout>

@@ -1,11 +1,11 @@
 import React , { useState } from "react";
 import '../App.css';
 import {
-    TextField,
-    MenuItem, 
     Button,
-    useThemeProps,
   } from '@mui/material/';
+
+import styled from "styled-components";
+
 import CustomDetailOptionModal from "./CustomDetailOptionModal";
 
 function CustomDetailOption({setItem, item, index}){
@@ -16,10 +16,13 @@ function CustomDetailOption({setItem, item, index}){
     
     return(
         <>
-            <Button onClick={handleOpen}>Detail Options</Button>
+            <DetailButton onClick={handleOpen}>세부설정</DetailButton>
             <CustomDetailOptionModal item={item} index={index} setItem={setItem} handleClose={handleClose} open={open}/>
         </>
     );
 };
 
 export default CustomDetailOption;
+
+const DetailButton = styled(Button)`
+  width: 80px`;
