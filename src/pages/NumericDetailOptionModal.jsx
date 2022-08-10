@@ -1,4 +1,5 @@
 import React , { useState, useEffect} from "react";
+import ApexCharts from 'react-apexcharts'
 import {
     Modal,
     Box,
@@ -33,6 +34,7 @@ function randn_bm(avg, sigma) {
 function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeric}){
 
     const distributionList = ["Uniform distribution", "Nomal distribution"];
+    const [result, setResult] = useState([]);
 
     const [numericDetail, setNumericDetail] = useState({
         mind: numeric.min,
@@ -53,10 +55,38 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
         numericDetail.standardDeviationd = numeric.standardDeviation;
     },[numeric])
 
+    const gaussianRandom = () => {
+      let ramdomNum = 0;
+      let tempResult = [];
+      let j = 0;
+      for(let i = 0; i < 1000 + j; i++ ){
+
+          ramdomNum = randn_bm(parseFloat(numericDetail.avgd === "" ? "0" : numericDetail.avgd), parseFloat(numericDetail.standardDeviationd === "" ? "0" : numericDetail.standardDeviationd));
+          if (ramdomNum >= parseInt(numericDetail.mind) && ramdomNum <= parseInt(numericDetail.maxd)) {
+              tempResult.push(ramdomNum.toFixed(2));
+    } else {
+      j++;
+    }
+      }
+
+      const unordered = tempResult.reduce((accu, curr) => { 
+          accu[curr] = (accu[curr] || 0)+1; 
+          return accu;
+        }, {});
+      const ordered = {};
+
+      Object.keys(unordered).sort().forEach(function(key) {
+          ordered[key] = unordered[key];
+      })
+      
+      setResult(ordered);
+  };
+
 
     const changeNumericDetail = (event) => {
         numericDetail[event.target.name] = event.target.value;
         setNumericDetail({...numericDetail});
+        gaussianRandom();
       };
     
     const apply = () => {
@@ -68,6 +98,49 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
         numeric.standardDeviation = numericDetail.standardDeviationd;
     };
     
+    const chartState = {
+          
+      series: [{
+        name: "nomal",
+        data: Object.values(result)
+      }],
+      options: {
+        chart: {
+          type: 'area',
+          height: 350,
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        
+        title: {
+          text: '그래프',
+          align: 'left'
+        },
+        subtitle: {
+          text: '정규분포',
+          align: 'left'
+        },
+        labels: Object.keys(result),
+        xaxis: {
+          type: 'number',
+        },
+        yaxis: {
+          opposite: true
+        },
+        legend: {
+          horizontalAlign: 'left'
+        }
+      },
+    
+    };
+
     return(
         <Dialog 
             open={open} 
@@ -86,7 +159,13 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
                 </TextField>
                 {(numericDetail.distributiond == "Nomal distribution" ? true : false) && <>
                 <TextField onChange={changeNumericDetail} name="avgd" label="Avg" variant="outlined" type="number" required value={numericDetail.avgd}/>
-                <TextField onChange={changeNumericDetail} name="standardDeviationd" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviationd}/></>}<br/>
+                <TextField onChange={changeNumericDetail} name="standardDeviationd" label="standard deviation" variant="outlined" type="number" required value={numericDetail.standardDeviationd}/>
+                <div id="chart">
+                  <ApexCharts options={chartState.options} series={chartState.series} type="area" height={350} />
+                </div>
+                </>
+                }<br/>
+               
             </DialogContent>
             <DialogActions>
             <Button onClick={() => {apply(); handleClose()}}>Apply</Button> 
