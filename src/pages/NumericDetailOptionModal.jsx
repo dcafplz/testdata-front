@@ -62,7 +62,7 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
       for(let i = 0; i < 1000 + j; i++ ){
 
           ramdomNum = randn_bm(parseFloat(numericDetail.avgd === "" ? "0" : numericDetail.avgd), parseFloat(numericDetail.standardDeviationd === "" ? "0" : numericDetail.standardDeviationd));
-          if (ramdomNum >= parseInt(numericDetail.mind) && ramdomNum <= parseInt(numericDetail.maxd)) {
+          if (ramdomNum >= parseInt(numericDetail.mind === "" ? "0" : numericDetail.mind) && ramdomNum <= parseInt(numericDetail.maxd === "" ? "0" : numericDetail.maxd)) {
               tempResult.push(ramdomNum.toFixed(2));
     } else {
       j++;
@@ -84,9 +84,21 @@ function NumericDetailOptionModal({open, handleClose, option, numeric, setNumeri
 
 
     const changeNumericDetail = (event) => {
-        numericDetail[event.target.name] = event.target.value;
-        setNumericDetail({...numericDetail});
-        gaussianRandom();
+      numericDetail[event.target.name] = event.target.value;
+        if (parseInt(numericDetail.maxd === "" ? "0" : numericDetail.maxd) > parseInt(numericDetail.mind === "" ? "0" : numericDetail.mind)) {
+          if(parseInt(numericDetail.avgd === "" ? "0" : numericDetail.avgd) >= parseInt(numericDetail.mind === "" ? "0" : numericDetail.mind)) {
+            if(parseInt(numericDetail.avgd === "" ? "0" : numericDetail.avgd) < parseInt(numericDetail.maxd === "" ? "0" : numericDetail.maxd)) {
+              setNumericDetail({...numericDetail});
+              gaussianRandom();
+            }else{
+              alert("최대값은 평균보다 작을 수 없다")
+            }
+          }else{
+            alert("최소값은 평균보다 클 수 없다")
+          }
+        }else{
+          alert("최대값은 최소값보다 작을 수 없다")
+        }
       };
     
     const apply = () => {
